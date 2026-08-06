@@ -340,18 +340,18 @@ h1{
 
 // ---------- Sample data (this is what Claude would generate/edit for you each cycle) ----------
 const recipes = {
-  r1: { name:"Sheet-Pan Chicken Thighs & Broccoli", note:"Toss thighs + frozen broccoli with oil and salt, roast 25 min at 425°. Squeeze lemon at the end.",
-        costco:["Chicken thighs","Frozen broccoli"], fresh:["Lemon"] },
-  r2: { name:"Turkey Taco Bowls", note:"Brown turkey with taco seasoning, warm frozen corn, build bowls with romaine and avocado.",
-        costco:["Ground turkey","Frozen corn"], fresh:["Romaine lettuce","Avocado"] },
-  r3: { name:"Salmon & Roasted Asparagus", note:"Roast salmon and frozen asparagus together, 12–15 min at 400°. Finish with lemon.",
-        costco:["Salmon fillets","Frozen asparagus"], fresh:["Lemon"] },
-  r4: { name:"Beef & Broccoli Stir-Fry", note:"Sear beef strips, add frozen broccoli and stir-fry sauce, serve over rice. Top with green onion.",
-        costco:["Beef stir-fry strips","Frozen broccoli"], fresh:["Green onion"] },
-  r5: { name:"Shrimp & Stir-Fry Veg", note:"Sauté frozen shrimp and stir-fry vegetable mix, finish with lime and cilantro.",
-        costco:["Shrimp (frozen bag)","Frozen stir-fry vegetable mix"], fresh:["Cilantro","Lime"] },
-  r6: { name:"Italian Sausage & Peppers", note:"Sheet-pan sausage with frozen pepper strips, 25 min at 400°. Top with fresh basil.",
-        costco:["Italian sausage","Frozen pepper strips"], fresh:["Basil"] },
+  r1: { name:"Thai Red Curry Shrimp", note:"Sauté frozen stir-fry veg, add shrimp and red curry paste thinned with a little water, simmer 5–7 min. Serve over the rice/quinoa mix, finish with basil and lime.",
+        costco:["Shrimp","Stir fry veg","Thai red curry paste","Brown rice/quinoa mix"], fresh:["Lime","Fresh basil"] },
+  r2: { name:"Chicken Adobo", note:"Braise chicken breast in soy sauce, vinegar, and garlic 20 min, add mixed vegetables the last 5 min. Serve over the rice/quinoa mix.",
+        costco:["Chicken breast","Mixed vegetables","Brown rice/quinoa mix"], fresh:["Garlic"] },
+  r3: { name:"Miso-Glazed Salmon", note:"Whisk miso paste with a little oil, brush on salmon, broil 8–10 min alongside broccoli florets. Serve with roasted sweet potato, top with green onion.",
+        costco:["Salmon","Broccoli florets","Miso paste"], fresh:["Sweet potato","Green onion"] },
+  r4: { name:"Cajun Cod & Sheet Pan Veg", note:"Season cod and sheet pan vegetables with cajun seasoning, roast 15 min at 425°. Stir a splash of cream into the pan drippings for a quick cajun cream sauce, serve with roast potato.",
+        costco:["Cod","Sheet pan vegetables","Cajun seasoning"], fresh:["Roast potato","Heavy cream"] },
+  r5: { name:"Gochujang Turkey Bowl", note:"Brown ground turkey, stir in gochujang to taste, warm the normandy vegetables. Serve over farro with cucumber and green onion.",
+        costco:["Ground turkey","Normandy vegetables","Farro","Gochujang paste"], fresh:["Cucumber","Green onion"] },
+  r6: { name:"Chimichurri Pork Tenderloin", note:"Sear pork tenderloin, roast with the fire roasted primavera mistura and squash 20 min at 400°. Blend parsley, garlic, lime, and oil for chimichurri, spoon over top.",
+        costco:["Pork tenderloin","Fire roasted primavera mistura"], fresh:["Squash","Parsley","Garlic","Lime"] },
 };
 
 const plan = [
@@ -360,6 +360,25 @@ const plan = [
   { label:"Week 3", days:[ {day:"Sun", slot:"1", r:"r1"}, {day:"Sun", slot:"2", r:"r3"}, {day:"Thu", slot:"", r:"r2"} ] },
   { label:"Week 4", days:[ {day:"Sun", slot:"1", r:"r5"}, {day:"Sun", slot:"2", r:"r6"}, {day:"Thu", slot:"", r:"r4"} ] },
 ];
+
+// Items that appear on every week's or every Costco list regardless of that cycle's recipes
+const STANDING_WEEKLY = ["Yogurt","Milk","Eggs","Fruit","Bread","Shredded cheese","Baby food"];
+const STANDING_COSTCO = ["Frozen fruit","Oats","Trash bags","Oil","Quinoa","Brown rice","Hummus","Guac","Chips","Nuts"];
+
+// Category grouping for the shopping list display
+const CATEGORY_ORDER = ["Protein","Produce","Dairy & Eggs","Bakery","Frozen","Grains & Pantry","Snacks","Household","Baby","Other"];
+const CATEGORY_MAP = {
+  "shrimp":"Protein","chicken breast":"Protein","salmon":"Protein","cod":"Protein","tilapia":"Protein","ground turkey":"Protein","pork tenderloin":"Protein",
+  "lime":"Produce","fresh basil":"Produce","garlic":"Produce","sweet potato":"Produce","green onion":"Produce","roast potato":"Produce","cucumber":"Produce","squash":"Produce","parsley":"Produce","fruit":"Produce",
+  "heavy cream":"Dairy & Eggs","yogurt":"Dairy & Eggs","milk":"Dairy & Eggs","eggs":"Dairy & Eggs","shredded cheese":"Dairy & Eggs",
+  "bread":"Bakery",
+  "stir fry veg":"Frozen","mixed vegetables":"Frozen","broccoli florets":"Frozen","sheet pan vegetables":"Frozen","normandy vegetables":"Frozen","fire roasted primavera mistura":"Frozen","frozen fruit":"Frozen",
+  "brown rice/quinoa mix":"Grains & Pantry","farro":"Grains & Pantry","thai red curry paste":"Grains & Pantry","miso paste":"Grains & Pantry","cajun seasoning":"Grains & Pantry","gochujang paste":"Grains & Pantry","oats":"Grains & Pantry","oil":"Grains & Pantry","quinoa":"Grains & Pantry","brown rice":"Grains & Pantry",
+  "hummus":"Snacks","guac":"Snacks","chips":"Snacks","nuts":"Snacks",
+  "trash bags":"Household",
+  "baby food":"Baby",
+};
+function categoryFor(name){ return CATEGORY_MAP[name.toLowerCase()] || "Other"; }
 
 function weekRecipeIds(weekIdx){
   return [...new Set(plan[weekIdx].days.map(d=>d.r))];
@@ -372,7 +391,9 @@ function costcoList(){
       items.get(item).add(recipes[d.r].name);
     });
   }));
-  return [...items.entries()].map(([name, usedIn])=>({name, meta:`for ${usedIn.size} recipe${usedIn.size>1?'s':''}`}));
+  const fromRecipes = [...items.entries()].map(([name, usedIn])=>({name, meta:`for ${usedIn.size} recipe${usedIn.size>1?'s':''}`}));
+  const standing = STANDING_COSTCO.map(name=>({name, meta:'standing item'}));
+  return fromRecipes.concat(standing);
 }
 function weekFreshList(weekIdx){
   const items = new Map();
@@ -382,7 +403,9 @@ function weekFreshList(weekIdx){
       items.get(item).add(recipes[rid].name);
     });
   });
-  return [...items.entries()].map(([name, usedIn])=>({name, meta:[...usedIn].join(", ")}));
+  const fromRecipes = [...items.entries()].map(([name, usedIn])=>({name, meta:[...usedIn].join(", ")}));
+  const standing = STANDING_WEEKLY.map(name=>({name, meta:'weekly staple'}));
+  return fromRecipes.concat(standing);
 }
 
 // today -> which week is "current" (just for the dot indicator + default tab), based on a fixed cycle start
@@ -518,13 +541,24 @@ function renderChecklist({prefix, title, sub, items}){
       <button class="reset-link" id="resetBtn">Reset checks</button>
     </div>`;
 
+  const grouped = new Map();
   allItems.forEach(it=>{
-    const isChecked = checkedSet.has(it.name);
-    html += `<div class="list-item" data-name="${it.name.replace(/"/g,'&quot;')}" data-extra="${!!it.extra}">
-      <div class="checkbox ${isChecked?'checked':''}"></div>
-      <div class="item-label ${isChecked?'checked':''}">${it.name}<div class="item-meta">${it.meta||''}</div></div>
-      ${it.extra ? '<div class="item-remove">×</div>' : ''}
-    </div>`;
+    const cat = categoryFor(it.name);
+    if(!grouped.has(cat)) grouped.set(cat, []);
+    grouped.get(cat).push(it);
+  });
+
+  CATEGORY_ORDER.forEach(cat=>{
+    if(!grouped.has(cat)) return;
+    html += `<div class="group-heading">${cat}</div>`;
+    grouped.get(cat).forEach(it=>{
+      const isChecked = checkedSet.has(it.name);
+      html += `<div class="list-item" data-name="${it.name.replace(/"/g,'&quot;')}" data-extra="${!!it.extra}">
+        <div class="checkbox ${isChecked?'checked':''}"></div>
+        <div class="item-label ${isChecked?'checked':''}">${it.name}<div class="item-meta">${it.meta||''}</div></div>
+        ${it.extra ? '<div class="item-remove">×</div>' : ''}
+      </div>`;
+    });
   });
 
   html += `<div class="add-row">
