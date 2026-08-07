@@ -5,219 +5,217 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 <title>Meal Plan</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap');
-
 :root{
-  --paper:#FBF8F2;
-  --paper-raised:#FFFFFF;
-  --ink:#2B2925;
-  --ink-soft:#6B6559;
-  --pine:#3F5C43;
-  --pine-deep:#2F4633;
-  --rust:#B5502E;
-  --rust-soft:#F1DFD3;
-  --mustard:#C9973A;
-  --mustard-soft:#F3E7CC;
-  --sage-check:#7C9473;
-  --line:#E6DECB;
-  --shadow: 0 1px 2px rgba(43,41,37,0.06), 0 4px 14px rgba(43,41,37,0.05);
+  --bg:#F2F2F7;
+  --card:#FFFFFF;
+  --label:#1D1D1F;
+  --secondary:#8E8E93;
+  --tertiary:#C7C7CC;
+  --tint:#0071E3;
+  --tint-soft:rgba(0,113,227,0.1);
+  --green:#34C759;
+  --separator:rgba(60,60,67,0.13);
+  --segment-bg:rgba(118,118,128,0.12);
+  --red:#FF3B30;
+  --red-soft:rgba(255,59,48,0.1);
 }
 
-*{box-sizing:border-box;}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 html,body{margin:0;padding:0;}
 body{
-  background:var(--paper);
-  color:var(--ink);
-  font-family:'Inter',system-ui,-apple-system,sans-serif;
+  background:var(--bg);
+  color:var(--label);
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display",Helvetica Neue,Arial,sans-serif;
   -webkit-font-smoothing:antialiased;
   min-height:100vh;
-  padding-bottom:40px;
+  padding-bottom:48px;
 }
 
 .app{max-width:520px;margin:0 auto;padding:0 16px;}
 
 /* Header */
 .header{
-  padding:22px 4px 14px 4px;
+  padding:28px 4px 18px 4px;
 }
 .eyebrow{
-  font-size:11px;
-  letter-spacing:0.12em;
-  text-transform:uppercase;
-  color:var(--pine);
-  font-weight:600;
-  margin:0 0 4px 0;
+  font-size:13px;
+  letter-spacing:-0.01em;
+  color:var(--secondary);
+  font-weight:590;
+  margin:0 0 2px 0;
 }
 h1{
-  font-family:'Fraunces',serif;
-  font-weight:600;
-  font-size:30px;
-  letter-spacing:-0.01em;
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif;
+  font-weight:700;
+  font-size:34px;
+  letter-spacing:0.37px;
   margin:0 0 4px 0;
-  color:var(--ink);
+  color:var(--label);
 }
 .cycle-range{
-  font-size:13.5px;
-  color:var(--ink-soft);
+  font-size:15px;
+  color:var(--secondary);
   margin:0;
+  font-weight:400;
 }
 
-/* Tabs - styled like recipe-box divider tabs */
+/* Tabs — iOS segmented control */
 .tabs{
   display:flex;
-  gap:6px;
+  gap:2px;
   overflow-x:auto;
-  padding:6px 2px 14px 2px;
+  padding:3px;
+  margin-bottom:16px;
+  background:var(--segment-bg);
+  border-radius:9px;
   scrollbar-width:none;
 }
 .tabs::-webkit-scrollbar{display:none;}
 .tab{
   flex:0 0 auto;
-  padding:9px 14px 8px 14px;
-  background:var(--paper-raised);
-  border:1px solid var(--line);
-  border-bottom:none;
-  border-radius:8px 8px 0 0;
+  padding:6px 13px;
+  background:transparent;
+  border-radius:7px;
   font-size:13px;
-  font-weight:600;
-  color:var(--ink-soft);
+  font-weight:590;
+  color:var(--label);
   cursor:pointer;
   white-space:nowrap;
-  position:relative;
-  top:1px;
+  transition:background .15s ease, box-shadow .15s ease;
 }
 .tab.active{
-  color:var(--pine-deep);
-  background:var(--paper-raised);
-  border-color:var(--pine);
-  box-shadow: 0 -2px 0 0 var(--pine) inset;
+  background:var(--card);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 1px rgba(0,0,0,0.06);
 }
 .tab .dot{
   display:inline-block;
-  width:6px;height:6px;border-radius:50%;
-  background:var(--rust);
-  margin-left:6px;
+  width:5px;height:5px;border-radius:50%;
+  background:var(--tint);
+  margin-left:5px;
   vertical-align:middle;
   opacity:0;
 }
 .tab.current .dot{opacity:1;}
 
-/* Panel */
+/* Panel — grouped inset card */
 .panel{
-  background:var(--paper-raised);
-  border:1px solid var(--line);
-  border-radius:0 10px 10px 10px;
-  box-shadow:var(--shadow);
-  padding:18px 16px 20px 16px;
+  background:var(--card);
+  border-radius:14px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  padding:4px 16px;
   min-height:260px;
 }
 
 .section-title{
-  font-family:'Fraunces',serif;
-  font-size:18px;
-  font-weight:600;
-  margin:0 0 2px 0;
+  font-family:inherit;
+  font-size:20px;
+  font-weight:700;
+  letter-spacing:0.34px;
+  margin:16px 0 2px 0;
+  padding:0 2px;
 }
 .section-sub{
-  font-size:12.5px;
-  color:var(--ink-soft);
-  margin:0 0 16px 0;
+  font-size:13px;
+  color:var(--secondary);
+  margin:0 0 12px 0;
+  padding:0 2px;
 }
 
-/* Plan overview: day cards */
-.week-block{margin-bottom:18px;}
-.week-block:last-child{margin-bottom:0;}
+/* Plan overview: day rows, grouped-list style */
+.week-block{margin-bottom:8px;}
+.week-block:last-child{margin-bottom:4px;}
 .week-label{
-  font-size:11px;
-  letter-spacing:0.1em;
-  text-transform:uppercase;
-  font-weight:700;
-  color:var(--pine);
-  margin-bottom:8px;
+  font-size:13px;
+  letter-spacing:-0.01em;
+  font-weight:590;
+  color:var(--secondary);
+  padding:14px 2px 6px 2px;
 }
 .day-card{
-  border:1px solid var(--line);
-  border-radius:8px;
-  padding:10px 12px;
-  margin-bottom:8px;
-  background:var(--paper);
+  padding:12px 2px;
+  border-bottom:1px solid var(--separator);
   cursor:pointer;
 }
+.week-block .day-card:last-of-type{border-bottom:1px solid var(--separator);}
+.week-block:last-child .day-card:last-of-type{border-bottom:none;}
 .day-row{
   display:flex;
-  align-items:baseline;
+  align-items:center;
   justify-content:space-between;
   gap:10px;
 }
 .day-name{
-  font-size:11px;
-  font-weight:700;
-  letter-spacing:0.06em;
-  text-transform:uppercase;
-  color:var(--rust);
-  min-width:56px;
+  font-size:12px;
+  font-weight:590;
+  letter-spacing:0.01em;
+  color:var(--tint);
+  min-width:44px;
 }
 .meal-name{
-  font-family:'Fraunces',serif;
+  font-family:inherit;
   font-size:16px;
-  font-weight:600;
+  font-weight:590;
+  letter-spacing:-0.01em;
   flex:1;
+  color:var(--label);
 }
-.chev{color:var(--ink-soft);font-size:12px;transition:transform .15s;}
+.chev{color:var(--tertiary);font-size:14px;transition:transform .2s ease;font-weight:700;}
 .day-card.open .chev{transform:rotate(90deg);}
 .recipe-detail{
   max-height:0;
   overflow:hidden;
-  transition:max-height .2s ease;
-  font-size:13px;
-  color:var(--ink-soft);
+  transition:max-height .25s ease;
+  font-size:14px;
+  color:var(--secondary);
   line-height:1.5;
 }
 .day-card.open .recipe-detail{
-  max-height:200px;
+  max-height:220px;
   margin-top:8px;
-  padding-top:8px;
-  border-top:1px dashed var(--line);
+  padding-top:2px;
 }
-.tag-row{margin-top:6px;}
+.tag-row{margin-top:8px;}
 .tag{
   display:inline-block;
-  font-size:10.5px;
-  font-weight:600;
-  padding:2px 7px;
+  font-size:11px;
+  font-weight:590;
+  padding:3px 9px;
   border-radius:20px;
   margin-right:5px;
+  margin-bottom:5px;
 }
-.tag.costco{background:var(--mustard-soft);color:#8A6317;}
-.tag.fresh{background:#DCE7DA;color:var(--pine-deep);}
+.tag.costco{background:var(--tint-soft);color:var(--tint);}
+.tag.fresh{background:rgba(52,199,89,0.12);color:#248A3D;}
 
-/* Checklist */
+/* Checklist — iOS Reminders style */
 .list-item{
   display:flex;
   align-items:center;
   gap:12px;
   padding:11px 2px;
-  border-bottom:1px solid var(--line);
+  border-bottom:1px solid var(--separator);
 }
 .list-item:last-of-type{border-bottom:none;}
 .checkbox{
   width:22px;height:22px;
   flex:0 0 22px;
-  border:2px solid var(--ink-soft);
-  border-radius:5px;
+  border:1.5px solid var(--tertiary);
+  border-radius:50%;
   cursor:pointer;
   position:relative;
-  background:var(--paper-raised);
+  background:var(--card);
+  transition:transform .1s ease;
 }
+.checkbox:active{transform:scale(0.88);}
 .checkbox.checked{
-  background:var(--sage-check);
-  border-color:var(--sage-check);
+  background:var(--tint);
+  border-color:var(--tint);
 }
 .checkbox.checked::after{
   content:"";
   position:absolute;
-  left:6px;top:2px;
-  width:6px;height:11px;
+  left:6px;top:3px;
+  width:6px;height:10px;
   border:solid white;
   border-width:0 2px 2px 0;
   transform:rotate(40deg);
@@ -225,93 +223,93 @@ h1{
 .item-label{
   flex:1;
   font-size:15px;
+  letter-spacing:-0.01em;
 }
 .item-label.checked{
-  color:var(--ink-soft);
+  color:var(--secondary);
   text-decoration:line-through;
-  text-decoration-color:var(--line);
+  text-decoration-color:var(--tertiary);
 }
 .item-meta{
-  font-size:11px;
-  color:var(--ink-soft);
+  font-size:12px;
+  color:var(--secondary);
+  margin-top:1px;
 }
 .item-remove{
-  color:var(--ink-soft);
-  font-size:18px;
+  color:var(--tertiary);
+  font-size:20px;
   padding:0 4px;
   cursor:pointer;
-  opacity:0.5;
 }
 
 .progress-row{
   display:flex;justify-content:space-between;align-items:center;
-  margin-bottom:14px;
+  padding:14px 2px 10px 2px;
 }
-.progress-text{font-size:12px;color:var(--ink-soft);}
+.progress-text{font-size:13px;color:var(--secondary);font-weight:500;}
 .reset-link{
-  font-size:12px;
-  color:var(--rust);
-  font-weight:600;
+  font-size:14px;
+  color:var(--tint);
+  font-weight:400;
   cursor:pointer;
   background:none;border:none;
   padding:0;
 }
 
 .add-row{
-  display:flex;gap:8px;margin-top:14px;
+  display:flex;gap:8px;padding:14px 2px 14px 2px;
 }
 .add-row input{
   flex:1;
-  border:1px solid var(--line);
-  border-radius:7px;
-  padding:9px 10px;
-  font-size:14px;
+  border:none;
+  border-radius:9px;
+  padding:10px 12px;
+  font-size:15px;
   font-family:inherit;
-  background:var(--paper);
-  color:var(--ink);
+  background:var(--bg);
+  color:var(--label);
 }
-.add-row input:focus{outline:2px solid var(--pine);outline-offset:0;}
+.add-row input:focus{outline:2px solid var(--tint);outline-offset:0;}
 .add-row button{
   border:none;
-  background:var(--pine);
+  background:var(--tint);
   color:white;
-  font-weight:600;
-  font-size:13px;
-  padding:0 16px;
-  border-radius:7px;
+  font-weight:590;
+  font-size:14px;
+  padding:0 18px;
+  border-radius:9px;
   cursor:pointer;
 }
 
 .group-heading{
-  font-size:11px;
-  letter-spacing:0.08em;
+  font-size:12px;
+  letter-spacing:0.02em;
   text-transform:uppercase;
-  font-weight:700;
-  color:var(--ink-soft);
-  margin:16px 0 4px 0;
+  font-weight:590;
+  color:var(--secondary);
+  padding:14px 2px 6px 2px;
 }
-.group-heading:first-child{margin-top:0;}
+.group-heading:first-child{padding-top:14px;}
 
 .loading{
   text-align:center;
   padding:40px 0;
-  color:var(--ink-soft);
-  font-size:13px;
+  color:var(--secondary);
+  font-size:14px;
 }
 #storageBanner{
-  background:var(--rust-soft);
-  color:#7A3719;
-  border:1px solid #E0B79C;
-  border-radius:8px;
-  padding:10px 12px;
-  font-size:12.5px;
+  background:var(--red-soft);
+  color:#C41E1E;
+  border-radius:12px;
+  padding:12px 14px;
+  font-size:13px;
   line-height:1.5;
-  margin-bottom:10px;
+  margin-bottom:12px;
 }
 .not-saved{
-  color:var(--rust);
+  color:var(--red);
   font-size:11px;
-  font-weight:600;
+  font-weight:590;
   margin-left:6px;
 }
 
@@ -340,25 +338,37 @@ h1{
 
 // ---------- Sample data (this is what Claude would generate/edit for you each cycle) ----------
 const recipes = {
-  r1: { name:"Thai Red Curry Shrimp", note:"Sauté frozen stir-fry veg, add shrimp and red curry paste thinned with a little water, simmer 5–7 min. Serve over the rice/quinoa mix, finish with basil and lime.",
-        costco:["Shrimp","Stir fry veg","Thai red curry paste","Brown rice/quinoa mix"], fresh:["Lime","Fresh basil"] },
-  r2: { name:"Chicken Adobo", note:"Braise chicken breast in soy sauce, vinegar, and garlic 20 min, add mixed vegetables the last 5 min. Serve over the rice/quinoa mix.",
-        costco:["Chicken breast","Mixed vegetables","Brown rice/quinoa mix"], fresh:["Garlic"] },
-  r3: { name:"Miso-Glazed Salmon", note:"Whisk miso paste with a little oil, brush on salmon, broil 8–10 min alongside broccoli florets. Serve with roasted sweet potato, top with green onion.",
-        costco:["Salmon","Broccoli florets","Miso paste"], fresh:["Sweet potato","Green onion"] },
-  r4: { name:"Cajun Cod & Sheet Pan Veg", note:"Season cod and sheet pan vegetables with cajun seasoning, roast 15 min at 425°. Stir a splash of cream into the pan drippings for a quick cajun cream sauce, serve with roast potato.",
+  r1: { name:"Thai Red Curry Shrimp", note:"Simmer red curry paste in coconut milk, add shrimp and the stir-fry veg, finish with fish sauce and lime. Serve over the rice/quinoa mix.",
+        costco:["Shrimp","Stir fry veg","Thai red curry paste","Coconut milk","Fish sauce","Brown rice/quinoa mix"], fresh:["Lime","Fresh basil"] },
+  r2: { name:"Chicken Adobo", note:"Braise chicken breast in soy sauce, vinegar, garlic, whole black peppercorns, and a bay leaf, 25 min. Add mixed vegetables the last 5 min. Serve over farro.",
+        costco:["Chicken breast","Mixed vegetables","Black peppercorns","Bay leaf","Farro"], fresh:["Garlic"] },
+  r3: { name:"Cajun Cod & Sheet Pan Veg", note:"Season cod and sheet pan vegetables with cajun seasoning, roast 15 min at 425°. Stir a splash of cream into the pan drippings for a quick cajun cream sauce, serve with roast potato.",
         costco:["Cod","Sheet pan vegetables","Cajun seasoning"], fresh:["Roast potato","Heavy cream"] },
-  r5: { name:"Gochujang Turkey Bowl", note:"Brown ground turkey, stir in gochujang to taste, warm the normandy vegetables. Serve over farro with cucumber and green onion.",
-        costco:["Ground turkey","Normandy vegetables","Farro","Gochujang paste"], fresh:["Cucumber","Green onion"] },
+  r4: { name:"Miso-Glazed Salmon", note:"Whisk miso paste with grated ginger, brown sugar, and a little oil; brush on salmon and broil 8–10 min alongside broccoli florets. Serve with roasted sweet potato, top with green onion.",
+        costco:["Salmon","Broccoli florets","Miso paste","Brown sugar"], fresh:["Sweet potato","Ginger","Green onion"] },
+  r5: { name:"Gochujang Turkey Bowl", note:"Brown ground turkey, stir in gochujang and a drizzle of sesame oil, warm the normandy vegetables. Serve over barley with cucumber and green onion.",
+        costco:["Ground turkey","Normandy vegetables","Gochujang paste","Sesame oil","Barley"], fresh:["Cucumber","Green onion"] },
   r6: { name:"Chimichurri Pork Tenderloin", note:"Sear pork tenderloin, roast with the fire roasted primavera mistura and squash 20 min at 400°. Blend parsley, garlic, lime, and oil for chimichurri, spoon over top.",
         costco:["Pork tenderloin","Fire roasted primavera mistura"], fresh:["Squash","Parsley","Garlic","Lime"] },
+  r7: { name:"Panang Curry Tilapia", note:"Simmer panang curry paste in coconut milk, add tilapia and the stir-fry veg, finish with basil and lime. Serve over millet.",
+        costco:["Tilapia","Stir fry veg","Panang curry paste","Coconut milk","Millet"], fresh:["Fresh basil","Lime"] },
+  r8: { name:"Katsu Chicken", note:"Bread chicken breast in panko, pan-fry until crisp, slice and drizzle with katsu sauce. Serve over the rice/quinoa mix with shredded cabbage and broccoli florets.",
+        costco:["Chicken breast","Broccoli florets","Panko breadcrumbs","Katsu sauce","Brown rice/quinoa mix"], fresh:["Cabbage"] },
+  r9: { name:"Mediterranean Shrimp & Orzo Vinaigrette", note:"Cook orzo, toss with a lemon-oil vinaigrette, diced cucumber, and cherry tomatoes. Top with seared shrimp and parsley.",
+        costco:["Shrimp","Orzo"], fresh:["Lemon","Cherry tomatoes","Cucumber","Parsley"] },
+  r10: { name:"Rogan Josh Pork Tenderloin", note:"Marinate pork in yogurt, garam masala, ginger, and garlic; sear, then roast 20 min. Wilt spinach in the pan drippings. Serve over the rice/quinoa mix.",
+        costco:["Pork tenderloin","Garam masala","Brown rice/quinoa mix"], fresh:["Yogurt","Ginger","Garlic","Spinach"] },
+  r11: { name:"Bulgogi Ground Turkey", note:"Marinate turkey in soy sauce, brown sugar, sesame oil, and garlic; sear with the mixed vegetables. Serve over farro with green onion.",
+        costco:["Ground turkey","Mixed vegetables","Sesame oil","Brown sugar","Farro"], fresh:["Green onion","Garlic"] },
+  r12: { name:"Chipotle Adobo Cod", note:"Blend chipotle in adobo sauce with a little oil, rub on cod, roast with sheet pan vegetables 15 min. Serve with roast potato and a squeeze of lime.",
+        costco:["Cod","Sheet pan vegetables","Chipotle in adobo sauce"], fresh:["Roast potato","Lime"] },
 };
 
 const plan = [
   { label:"Week 1", days:[ {day:"Sun", slot:"1", r:"r1"}, {day:"Sun", slot:"2", r:"r2"}, {day:"Thu", slot:"", r:"r3"} ] },
   { label:"Week 2", days:[ {day:"Sun", slot:"1", r:"r4"}, {day:"Sun", slot:"2", r:"r5"}, {day:"Thu", slot:"", r:"r6"} ] },
-  { label:"Week 3", days:[ {day:"Sun", slot:"1", r:"r1"}, {day:"Sun", slot:"2", r:"r3"}, {day:"Thu", slot:"", r:"r2"} ] },
-  { label:"Week 4", days:[ {day:"Sun", slot:"1", r:"r5"}, {day:"Sun", slot:"2", r:"r6"}, {day:"Thu", slot:"", r:"r4"} ] },
+  { label:"Week 3", days:[ {day:"Sun", slot:"1", r:"r7"}, {day:"Sun", slot:"2", r:"r8"}, {day:"Thu", slot:"", r:"r9"} ] },
+  { label:"Week 4", days:[ {day:"Sun", slot:"1", r:"r10"}, {day:"Sun", slot:"2", r:"r11"}, {day:"Thu", slot:"", r:"r12"} ] },
 ];
 
 // Items that appear on every week's or every Costco list regardless of that cycle's recipes
@@ -369,11 +379,11 @@ const STANDING_COSTCO = ["Frozen fruit","Oats","Trash bags","Oil","Quinoa","Brow
 const CATEGORY_ORDER = ["Protein","Produce","Dairy & Eggs","Bakery","Frozen","Grains & Pantry","Snacks","Household","Baby","Other"];
 const CATEGORY_MAP = {
   "shrimp":"Protein","chicken breast":"Protein","salmon":"Protein","cod":"Protein","tilapia":"Protein","ground turkey":"Protein","pork tenderloin":"Protein",
-  "lime":"Produce","fresh basil":"Produce","garlic":"Produce","sweet potato":"Produce","green onion":"Produce","roast potato":"Produce","cucumber":"Produce","squash":"Produce","parsley":"Produce","fruit":"Produce",
+  "lime":"Produce","fresh basil":"Produce","garlic":"Produce","sweet potato":"Produce","green onion":"Produce","roast potato":"Produce","cucumber":"Produce","squash":"Produce","parsley":"Produce","fruit":"Produce","ginger":"Produce","cabbage":"Produce","cherry tomatoes":"Produce","lemon":"Produce","spinach":"Produce",
   "heavy cream":"Dairy & Eggs","yogurt":"Dairy & Eggs","milk":"Dairy & Eggs","eggs":"Dairy & Eggs","shredded cheese":"Dairy & Eggs",
   "bread":"Bakery",
   "stir fry veg":"Frozen","mixed vegetables":"Frozen","broccoli florets":"Frozen","sheet pan vegetables":"Frozen","normandy vegetables":"Frozen","fire roasted primavera mistura":"Frozen","frozen fruit":"Frozen",
-  "brown rice/quinoa mix":"Grains & Pantry","farro":"Grains & Pantry","thai red curry paste":"Grains & Pantry","miso paste":"Grains & Pantry","cajun seasoning":"Grains & Pantry","gochujang paste":"Grains & Pantry","oats":"Grains & Pantry","oil":"Grains & Pantry","quinoa":"Grains & Pantry","brown rice":"Grains & Pantry",
+  "brown rice/quinoa mix":"Grains & Pantry","farro":"Grains & Pantry","thai red curry paste":"Grains & Pantry","miso paste":"Grains & Pantry","cajun seasoning":"Grains & Pantry","gochujang paste":"Grains & Pantry","oats":"Grains & Pantry","oil":"Grains & Pantry","quinoa":"Grains & Pantry","brown rice":"Grains & Pantry","barley":"Grains & Pantry","millet":"Grains & Pantry","orzo":"Grains & Pantry","coconut milk":"Grains & Pantry","fish sauce":"Grains & Pantry","black peppercorns":"Grains & Pantry","bay leaf":"Grains & Pantry","brown sugar":"Grains & Pantry","sesame oil":"Grains & Pantry","panko breadcrumbs":"Grains & Pantry","katsu sauce":"Grains & Pantry","panang curry paste":"Grains & Pantry","garam masala":"Grains & Pantry","chipotle in adobo sauce":"Grains & Pantry",
   "hummus":"Snacks","guac":"Snacks","chips":"Snacks","nuts":"Snacks",
   "trash bags":"Household",
   "baby food":"Baby",
