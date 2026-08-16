@@ -170,7 +170,7 @@ h1{
   line-height:1.5;
 }
 .day-card.open .recipe-detail{
-  max-height:220px;
+  max-height:900px;
   margin-top:8px;
   padding-top:2px;
 }
@@ -339,29 +339,29 @@ h1{
 // ---------- Sample data (this is what Claude would generate/edit for you each cycle) ----------
 const recipes = {
   r1: { name:"Thai Red Curry Shrimp", note:"Simmer red curry paste in coconut milk, add shrimp and the stir-fry veg, finish with fish sauce and lime. Serve over the rice/quinoa mix.",
-        costco:["Shrimp","Stir fry veg","Thai red curry paste","Coconut milk","Fish sauce","Brown rice/quinoa mix"], fresh:["Lime","Fresh basil"] },
+        costco:["Shrimp","Stir fry veg","Thai red curry paste","Coconut milk","Fish sauce","Brown rice/quinoa mix","Cashews"], fresh:["Lime","Fresh basil"] },
   r2: { name:"Chicken Adobo", note:"Braise chicken breast in soy sauce, vinegar, garlic, whole black peppercorns, and a bay leaf, 25 min. Add mixed vegetables the last 5 min. Serve over farro.",
-        costco:["Chicken breast","Mixed vegetables","Black peppercorns","Bay leaf","Farro"], fresh:["Garlic"] },
+        costco:["Chicken breast","Mixed vegetables","Black peppercorns","Bay leaf","Farro","Peanuts"], fresh:["Garlic"] },
   r3: { name:"Cajun Cod & Sheet Pan Veg", note:"Season cod and sheet pan vegetables with cajun seasoning, roast 15 min at 425°. Stir a splash of cream into the pan drippings for a quick cajun cream sauce, serve with roast potato.",
-        costco:["Cod","Sheet pan vegetables","Cajun seasoning"], fresh:["Roast potato","Heavy cream"] },
+        costco:["Cod","Sheet pan vegetables","Cajun seasoning"], fresh:["Roast potato","Heavy cream","Avocado"] },
   r4: { name:"Jamaican Jerk Chicken", note:"Rub chicken breast with jerk seasoning, sear, then roast 15 min. Roast sweet potato and broccoli florets alongside. Finish with lime.",
-        costco:["Chicken breast","Broccoli florets","Jamaican jerk seasoning"], fresh:["Sweet potato","Lime"] },
+        costco:["Chicken breast","Broccoli florets","Jamaican jerk seasoning","Pumpkin seeds"], fresh:["Sweet potato","Lime"] },
   r5: { name:"Gochujang Turkey Bowl", note:"Brown ground turkey, stir in gochujang and a drizzle of sesame oil, warm the normandy vegetables. Serve over barley with cucumber and green onion.",
         costco:["Ground turkey","Normandy vegetables","Gochujang paste","Sesame oil","Barley"], fresh:["Cucumber","Green onion"] },
   r6: { name:"Chimichurri Pork Tenderloin", note:"Sear pork tenderloin, roast with the fire roasted primavera mistura and squash 20 min at 400°. Blend parsley, garlic, lime, and oil for chimichurri, spoon over top.",
-        costco:["Pork tenderloin","Fire roasted primavera mistura"], fresh:["Squash","Parsley","Garlic","Lime"] },
+        costco:["Pork tenderloin","Fire roasted primavera mistura","Cashews"], fresh:["Squash","Parsley","Garlic","Lime","Avocado"] },
   r7: { name:"Panang Curry Tilapia", note:"Simmer panang curry paste in coconut milk, add tilapia and the stir-fry veg, finish with basil and lime. Serve over millet.",
-        costco:["Tilapia","Stir fry veg","Panang curry paste","Coconut milk","Millet"], fresh:["Fresh basil","Lime"] },
+        costco:["Tilapia","Stir fry veg","Panang curry paste","Coconut milk","Millet","Cashews"], fresh:["Fresh basil","Lime"] },
   r8: { name:"Katsu Chicken", note:"Bread chicken breast in panko, pan-fry until crisp, slice and drizzle with katsu sauce. Serve over the rice/quinoa mix with shredded cabbage and broccoli florets.",
-        costco:["Chicken breast","Broccoli florets","Panko breadcrumbs","Katsu sauce","Brown rice/quinoa mix"], fresh:["Cabbage"] },
+        costco:["Chicken breast","Broccoli florets","Panko breadcrumbs","Katsu sauce","Brown rice/quinoa mix","Sesame seeds"], fresh:["Cabbage"] },
   r9: { name:"Mediterranean Shrimp & Orzo Vinaigrette", note:"Cook orzo, toss with a lemon-oil vinaigrette, diced cucumber, and cherry tomatoes. Top with seared shrimp and parsley.",
-        costco:["Shrimp","Orzo"], fresh:["Lemon","Cherry tomatoes","Cucumber","Parsley"] },
+        costco:["Shrimp","Orzo"], fresh:["Lemon","Cherry tomatoes","Cucumber","Parsley","Feta"] },
   r10: { name:"Rogan Josh Pork Tenderloin", note:"Marinate pork in yogurt, garam masala, ginger, and garlic; sear, then roast 20 min. Wilt spinach in the pan drippings. Serve over the rice/quinoa mix.",
-        costco:["Pork tenderloin","Garam masala","Brown rice/quinoa mix"], fresh:["Yogurt","Ginger","Garlic","Spinach"] },
+        costco:["Pork tenderloin","Garam masala","Brown rice/quinoa mix","Cashews"], fresh:["Yogurt","Ginger","Garlic","Spinach"] },
   r11: { name:"Bulgogi Ground Turkey", note:"Marinate turkey in soy sauce, brown sugar, sesame oil, and garlic; sear with the mixed vegetables. Serve over farro with green onion.",
-        costco:["Ground turkey","Mixed vegetables","Sesame oil","Brown sugar","Farro"], fresh:["Green onion","Garlic"] },
-  r12: { name:"Chipotle Adobo Cod", note:"Blend chipotle in adobo sauce with a little oil, rub on cod, roast with sheet pan vegetables 15 min. Serve with roast potato and a squeeze of lime.",
-        costco:["Cod","Sheet pan vegetables","Chipotle in adobo sauce"], fresh:["Roast potato","Lime"] },
+        costco:["Ground turkey","Mixed vegetables","Sesame oil","Brown sugar","Farro","Sesame seeds"], fresh:["Green onion","Garlic"] },
+  r12: { name:"Turkey Meatball Pesto Pasta", note:"Form turkey into meatballs, bake 20 min, then toss with pesto, cooked pasta, and broccoli florets.",
+        costco:["Ground turkey","Pasta","Pesto","Broccoli florets"], fresh:["Garlic"] },
 };
 
 const plan = [
@@ -379,16 +379,177 @@ const STANDING_COSTCO = ["Frozen fruit","Oats","Trash bags","Oil","Quinoa","Brow
 const CATEGORY_ORDER = ["Protein","Produce","Dairy & Eggs","Bakery","Frozen","Grains & Pantry","Snacks","Household","Baby","Other"];
 const CATEGORY_MAP = {
   "shrimp":"Protein","chicken breast":"Protein","salmon":"Protein","cod":"Protein","tilapia":"Protein","ground turkey":"Protein","pork tenderloin":"Protein",
-  "lime":"Produce","fresh basil":"Produce","garlic":"Produce","sweet potato":"Produce","green onion":"Produce","roast potato":"Produce","cucumber":"Produce","squash":"Produce","parsley":"Produce","fruit":"Produce","ginger":"Produce","cabbage":"Produce","cherry tomatoes":"Produce","lemon":"Produce","spinach":"Produce",
-  "heavy cream":"Dairy & Eggs","yogurt":"Dairy & Eggs","milk":"Dairy & Eggs","eggs":"Dairy & Eggs","shredded cheese":"Dairy & Eggs",
+  "lime":"Produce","fresh basil":"Produce","garlic":"Produce","sweet potato":"Produce","green onion":"Produce","roast potato":"Produce","cucumber":"Produce","squash":"Produce","parsley":"Produce","fruit":"Produce","ginger":"Produce","cabbage":"Produce","cherry tomatoes":"Produce","lemon":"Produce","spinach":"Produce","avocado":"Produce",
+  "heavy cream":"Dairy & Eggs","yogurt":"Dairy & Eggs","milk":"Dairy & Eggs","eggs":"Dairy & Eggs","shredded cheese":"Dairy & Eggs","feta":"Dairy & Eggs",
   "bread":"Bakery",
   "stir fry veg":"Frozen","mixed vegetables":"Frozen","broccoli florets":"Frozen","sheet pan vegetables":"Frozen","normandy vegetables":"Frozen","fire roasted primavera mistura":"Frozen","frozen fruit":"Frozen",
-  "brown rice/quinoa mix":"Grains & Pantry","farro":"Grains & Pantry","thai red curry paste":"Grains & Pantry","miso paste":"Grains & Pantry","cajun seasoning":"Grains & Pantry","gochujang paste":"Grains & Pantry","oats":"Grains & Pantry","oil":"Grains & Pantry","quinoa":"Grains & Pantry","brown rice":"Grains & Pantry","barley":"Grains & Pantry","millet":"Grains & Pantry","orzo":"Grains & Pantry","coconut milk":"Grains & Pantry","fish sauce":"Grains & Pantry","black peppercorns":"Grains & Pantry","bay leaf":"Grains & Pantry","brown sugar":"Grains & Pantry","sesame oil":"Grains & Pantry","panko breadcrumbs":"Grains & Pantry","katsu sauce":"Grains & Pantry","panang curry paste":"Grains & Pantry","garam masala":"Grains & Pantry","chipotle in adobo sauce":"Grains & Pantry","jamaican jerk seasoning":"Grains & Pantry",
+  "brown rice/quinoa mix":"Grains & Pantry","farro":"Grains & Pantry","thai red curry paste":"Grains & Pantry","miso paste":"Grains & Pantry","cajun seasoning":"Grains & Pantry","gochujang paste":"Grains & Pantry","oats":"Grains & Pantry","oil":"Grains & Pantry","quinoa":"Grains & Pantry","brown rice":"Grains & Pantry","barley":"Grains & Pantry","millet":"Grains & Pantry","orzo":"Grains & Pantry","coconut milk":"Grains & Pantry","fish sauce":"Grains & Pantry","black peppercorns":"Grains & Pantry","bay leaf":"Grains & Pantry","brown sugar":"Grains & Pantry","sesame oil":"Grains & Pantry","panko breadcrumbs":"Grains & Pantry","katsu sauce":"Grains & Pantry","panang curry paste":"Grains & Pantry","garam masala":"Grains & Pantry","chipotle in adobo sauce":"Grains & Pantry","jamaican jerk seasoning":"Grains & Pantry","pasta":"Grains & Pantry","pesto":"Grains & Pantry",
+  "cashews":"Snacks","peanuts":"Snacks","pumpkin seeds":"Snacks","sesame seeds":"Snacks","coconut flakes":"Snacks",
   "hummus":"Snacks","guac":"Snacks","chips":"Snacks","nuts":"Snacks",
   "trash bags":"Household",
   "baby food":"Baby",
 };
 function categoryFor(name){ return CATEGORY_MAP[name.toLowerCase()] || "Other"; }
+
+// ---------- Macro data (researched Costco/USDA-level estimates) ----------
+// Proteins: {cal,p,c,f} PER LB raw — multiplied by the per-dish lb amount at calc time
+const PROTEIN_PER_LB = {
+  "shrimp":            {cal:386, p:92.1, c:0.9, f:2.3},
+  "chicken breast":    {cal:544, p:102.1, c:0,   f:11.8},
+  "salmon":            {cal:943, p:92.5, c:0,   f:60.8},
+  "cod":               {cal:372, p:80.7, c:0,   f:3.2},
+  "tilapia":           {cal:435, p:91.2, c:0,   f:7.7},
+  "ground turkey":     {cal:676, p:91.2, c:0,   f:33.6},
+  "pork tenderloin":   {cal:544, p:101.1, c:0,   f:15.9},
+};
+// lb of raw protein per dish — varies by protein type
+const PROTEIN_LB_PER_DISH = {
+  "shrimp":3.5, "chicken breast":3.5, "cod":3.5,
+  "salmon":2.5, "tilapia":2.5, "ground turkey":2.5, "pork tenderloin":2.5,
+};
+
+// Starches: totals for the FULL per-dish amount already (3 cups, 3 lb, 2 lb, etc — see references/preferences.md)
+const STARCH_PER_DISH = {
+  "brown rice/quinoa mix": {cal:1995, p:53, c:395, f:21}, // 2 cups brown rice + 1 cup quinoa
+  "farro":                 {cal:1820, p:69, c:362, f:14}, // 3 cups dry
+  "barley":                {cal:2112, p:59, c:466, f:7},  // 3 cups dry
+  "millet":                {cal:2268, p:66, c:437, f:25}, // 3 cups dry
+  "sweet potato":          {cal:1170, p:22, c:274, f:1},  // 3 lb raw
+  "roast potato":          {cal:1048, p:27, c:238, f:1},  // 3 lb raw
+  "squash":                {cal:613,  p:14, c:159, f:1},  // 3 lb raw — confirmed
+  "orzo":                  {cal:3365, p:118,c:678, f:14}, // 2 lb dry
+  "pasta":                 {cal:3365, p:118,c:678, f:14}, // 2 lb dry — same profile as orzo, assumed
+};
+const STARCH_QTY_LABEL = {
+  "brown rice/quinoa mix": "2 cups brown rice + 1 cup quinoa",
+  "farro": "3 cups farro",
+  "barley": "3 cups barley",
+  "millet": "3 cups millet",
+  "sweet potato": "3 lb sweet potato",
+  "roast potato": "3 lb potato",
+  "squash": "3 lb squash",
+  "orzo": "2 lb orzo",
+  "pasta": "2 lb pasta",
+};
+// Starches that get 2 tbsp roasting oil (vs. grains/pasta which get none)
+const OIL_STARCHES = new Set(["sweet potato","roast potato","squash"]);
+
+// Vegetables: totals for a FULL BAG — multiplied by each recipe's bag fraction at calc time
+const VEG_PER_BAG = {
+  "fire roasted primavera mistura": {cal:854,  p:21, c:128, f:43,  fraction:1,     qtyLabel:"1 full bag"},
+  "broccoli florets":               {cal:640,  p:43, c:107, f:0,   fraction:0.75,  qtyLabel:"3/4 bag"},
+  "stir fry veg":                   {cal:805,  p:54, c:161, f:0,   fraction:0.667, qtyLabel:"2/3 bag"},
+  "mixed vegetables":               {cal:1067, p:53, c:267, f:0,   fraction:0.5,   qtyLabel:"1/2 bag"},
+  "normandy vegetables":            {cal:716,  p:61, c:143, f:0,   fraction:1,     qtyLabel:"1 full bag"},
+  "sheet pan vegetables":           {cal:1708, p:21, c:171, f:128, fraction:1,     qtyLabel:"1 full bag"},
+};
+
+const OIL_TBSP = {cal:120, p:0, c:0, f:14}; // per tbsp
+const CURRY_EXTRA = {cal:1236, p:19, c:39, f:121}; // 1 can coconut milk + 4oz cashew cream, per dish
+
+// Larger portion (Dhillon) vs. smaller portion (wife), 4 servings each.
+// Ratio = larger-serving amount ÷ smaller-serving amount, for that category.
+const PORTION_RATIO = { protein: 1.5, starch: 2, veg: 1, curry: 1 };
+// Share of the FULL DISH that one serving of a given size gets, for a category with the given ratio.
+// 4 larger + 4 smaller servings must sum to the whole dish: 4·(ratio·s) + 4·s = 1 → s = 1/(4·ratio+4)
+function servingShare(ratio, isLarger){
+  const smallerShare = 1 / (4*ratio + 4);
+  return isLarger ? ratio*smallerShare : smallerShare;
+}
+
+// Per-recipe macro tags: which protein/starch/tracked-veg each recipe uses, and whether it's a coconut curry
+const RECIPE_MACROS = {
+  r1:  { protein:"shrimp",          starch:"brown rice/quinoa mix", veg:"stir fry veg",               curry:true  },
+  r2:  { protein:"chicken breast",  starch:"farro",                 veg:"mixed vegetables",           curry:false },
+  r3:  { protein:"cod",             starch:"roast potato",          veg:"sheet pan vegetables",        curry:false },
+  r4:  { protein:"chicken breast",  starch:"sweet potato",          veg:"broccoli florets",            curry:false },
+  r5:  { protein:"ground turkey",   starch:"barley",                veg:"normandy vegetables",         curry:false },
+  r6:  { protein:"pork tenderloin", starch:"squash",                veg:"fire roasted primavera mistura", curry:false },
+  r7:  { protein:"tilapia",         starch:"millet",                veg:"stir fry veg",               curry:true  },
+  r8:  { protein:"chicken breast",  starch:"brown rice/quinoa mix", veg:"broccoli florets",            curry:false },
+  r9:  { protein:"shrimp",          starch:"orzo",                  veg:null, /* fresh veg, not tracked */ curry:false },
+  r10: { protein:"pork tenderloin", starch:"brown rice/quinoa mix", veg:null, /* fresh spinach, not tracked */ curry:false },
+  r11: { protein:"ground turkey",   starch:"farro",                 veg:"mixed vegetables",           curry:false },
+  r12: { protein:"ground turkey",   starch:"pasta",                 veg:"broccoli florets",            curry:false },
+};
+
+// Reusable add-on ingredients — applied directly to a single (larger) serving, NOT split across the dish's 8 servings.
+const ADDON = {
+  oliveOil:      {label:"Olive oil",              qty:"1 tbsp",   macro:{cal:120, p:0, c:0,  f:14}},
+  pumpkinSeeds:  {label:"Pumpkin seeds",           qty:"2 tbsp",   macro:{cal:100, p:5, c:3,  f:8}},
+  cashews:       {label:"Toasted cashews",         qty:"2 tbsp",   macro:{cal:190, p:6, c:10, f:15}},
+  peanuts:       {label:"Roasted peanuts",         qty:"2 tbsp",   macro:{cal:190, p:9, c:6,  f:17}},
+  avocadoHalf:   {label:"Avocado",                 qty:"1/2",      macro:{cal:115, p:1, c:6,  f:10}},
+  sesameSeeds:   {label:"Toasted sesame seeds",    qty:"2 tbsp",   macro:{cal:100, p:3, c:4,  f:9}},
+  coconutFlakes: {label:"Toasted coconut flakes",  qty:"2 tbsp",   macro:{cal:65,  p:1, c:2,  f:6}},
+  feta:          {label:"Crumbled feta",           qty:"2 tbsp",   macro:{cal:100, p:5, c:2,  f:8}},
+  yogurtDollop:  {label:"Plain yogurt",            qty:"2 tbsp",   macro:{cal:38,  p:3, c:2,  f:2}},
+};
+
+// Add-ons for Dhillon's (larger) portion only, sized to bring that serving to 800+ calories.
+// Empty array = base larger-portion serving is already ≥800 cal, no add-on needed.
+const RECIPE_ADDONS = {
+  r1:  [ADDON.cashews],
+  r2:  [ADDON.peanuts],
+  r3:  [ADDON.avocadoHalf, ADDON.oliveOil],
+  r4:  [ADDON.pumpkinSeeds, ADDON.oliveOil], // as specified: pumpkin seeds + 1 tbsp olive oil drizzle
+  r5:  [ADDON.oliveOil],
+  r6:  [ADDON.avocadoHalf, ADDON.cashews, ADDON.oliveOil],
+  r7:  [ADDON.cashews],
+  r8:  [ADDON.sesameSeeds, ADDON.oliveOil],
+  r9:  [ADDON.feta],
+  r10: [ADDON.cashews, ADDON.yogurtDollop, ADDON.oliveOil],
+  r11: [ADDON.oliveOil, ADDON.sesameSeeds],
+  r12: [],
+};
+
+function scaleMacro(src, mult){ return {cal:src.cal*mult, p:src.p*mult, c:src.c*mult, f:src.f*mult}; }
+function sumMacros(list){ return list.reduce((acc,m)=>({cal:acc.cal+m.cal,p:acc.p+m.p,c:acc.c+m.c,f:acc.f+m.f}),{cal:0,p:0,c:0,f:0}); }
+function roundMacro(m){ return {cal:Math.round(m.cal), p:Math.round(m.p), c:Math.round(m.c), f:Math.round(m.f)}; }
+
+// isLarger: true = Dhillon's (larger) portion, false = wife's (smaller) portion.
+// Ingredient quantity labels always describe the FULL DISH regardless of portion — only the macro numbers differ.
+function calcMacros(recipeKey, isLarger){
+  const tag = RECIPE_MACROS[recipeKey];
+  if(!tag) return null;
+  const components = [];
+
+  const proteinLb = PROTEIN_LB_PER_DISH[tag.protein];
+  components.push({ label:"Protein", qty:`${proteinLb} lb ${tag.protein}`, macro: scaleMacro(PROTEIN_PER_LB[tag.protein], proteinLb), category:"protein" });
+
+  components.push({ label:"Starch", qty: STARCH_QTY_LABEL[tag.starch], macro: STARCH_PER_DISH[tag.starch], category:"starch" });
+
+  if(tag.veg && VEG_PER_BAG[tag.veg]){
+    const v = VEG_PER_BAG[tag.veg];
+    components.push({ label:"Vegetable", qty:`${v.qtyLabel} ${tag.veg}`, macro: scaleMacro(v, v.fraction), category:"veg" });
+  } else {
+    components.push({ label:"Vegetable", qty:"fresh ingredient — not tracked", macro:{cal:0,p:0,c:0,f:0}, category:"veg" });
+  }
+
+  components.push({ label:"Oil (protein)", qty:"1 tbsp", macro: scaleMacro(OIL_TBSP, 1), category:"protein" });
+  if(OIL_STARCHES.has(tag.starch)){
+    components.push({ label:"Oil (starch)", qty:"2 tbsp", macro: scaleMacro(OIL_TBSP, 2), category:"starch" });
+  }
+
+  if(tag.curry){
+    components.push({ label:"Curry base", qty:"1 can coconut milk + 4oz cashew cream", macro: CURRY_EXTRA, category:"curry" });
+  }
+
+  const componentsPerServing = components.map(c=>{
+    const share = servingShare(PORTION_RATIO[c.category], isLarger);
+    return { label:c.label, qty:c.qty, ...roundMacro(scaleMacro(c.macro, share)) };
+  });
+
+  if(isLarger && RECIPE_ADDONS[recipeKey] && RECIPE_ADDONS[recipeKey].length){
+    RECIPE_ADDONS[recipeKey].forEach(a=>{
+      componentsPerServing.push({ label:"Add-on", qty:`${a.qty} ${a.label}`, ...roundMacro(a.macro) });
+    });
+  }
+
+  const perServing = roundMacro(sumMacros(componentsPerServing.map(c=>({cal:c.cal,p:c.p,c:c.c,f:c.f}))));
+
+  return { perServing, components: componentsPerServing, untracked: !tag.veg };
+}
 
 function weekRecipeIds(weekIdx){
   return [...new Set(plan[weekIdx].days.map(d=>d.r))];
@@ -434,6 +595,8 @@ document.getElementById('cycleRange').textContent = fmtDate(CYCLE_START) + " –
 // ---------- Tabs ----------
 const TABS = [
   {id:'plan', label:'Plan'},
+  {id:'macrosD', label:'My Macros'},
+  {id:'macrosW', label:"Wife's Macros"},
   {id:'costco', label:'Costco'},
   {id:'week0', label:'Week 1'},
   {id:'week1', label:'Week 2'},
@@ -499,6 +662,8 @@ const panelEl = document.getElementById('panel');
 function renderPanel(){
   panelEl.innerHTML = '';
   if(activeTab === 'plan') return renderPlan();
+  if(activeTab === 'macrosD') return renderMacros(true);
+  if(activeTab === 'macrosW') return renderMacros(false);
   if(activeTab === 'costco') return renderChecklist({
     prefix:'checked:costco:', title:'Costco run', sub:'One trip covers the whole month — proteins & frozen veg.',
     items: costcoList()
@@ -510,12 +675,65 @@ function renderPanel(){
   });
 }
 
+function renderMacros(isLarger){
+  let html = '';
+  plan.forEach((w, idx)=>{
+    html += `<div class="week-block"><div class="week-label">${w.label}${idx===curWeek ? ' · current':''}</div>`;
+    w.days.forEach((d)=>{
+      const r = recipes[d.r];
+      const m = calcMacros(d.r, isLarger);
+      const rowsHtml = m.components.map(c=>`
+        <div style="display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px solid var(--separator);">
+          <div style="flex:1;">
+            <div style="font-size:13px;font-weight:590;color:var(--label);">${c.label}</div>
+            <div style="font-size:12px;color:var(--secondary);">${c.qty}</div>
+          </div>
+          <div style="text-align:right;font-size:12px;color:var(--secondary);white-space:nowrap;">
+            ${c.cal} cal<br>${c.p}P ${c.c}C ${c.f}F
+          </div>
+        </div>`).join('');
+      html += `<div class="day-card" data-macro-key="${d.r}">
+        <div class="day-row">
+          <span class="day-name">${d.day}${d.slot?' '+d.slot:''}</span>
+          <span class="meal-name">${r.name}</span>
+          <span class="chev">▸</span>
+        </div>
+        <div class="day-row" style="margin-top:2px;">
+          <span></span>
+          <span style="font-size:13px;color:var(--secondary);flex:1;">${m.untracked ? 'veg not tracked (fresh)' : 'per serving'}</span>
+          <span style="font-weight:590;font-size:14px;">${m.perServing.cal} cal · ${m.perServing.p}P ${m.perServing.c}C ${m.perServing.f}F</span>
+        </div>
+        <div class="recipe-detail">
+          <div style="font-size:11px;color:var(--secondary);margin-bottom:4px;">Per serving, by ingredient (quantities are for the full dish):</div>
+          ${rowsHtml}
+        </div>
+      </div>`;
+    });
+    html += `</div>`;
+  });
+  const whoTitle = isLarger ? "Your portion (larger)" : "Wife's portion (smaller)";
+  const targetNote = isLarger
+    ? `Portion ratio: the larger portion gets 1.5× the protein and 2× the starch of the smaller portion. Cooking oil follows the same split as whatever it's for (protein oil at 1.5×, starch-roasting oil at 2×). Vegetable is split evenly. Add-ons are layered on top of your serving (not split from the dish) to keep every meal at 800+ calories.`
+    : `Portion ratio: the larger portion gets 1.5× the protein and 2× the starch of the smaller portion. Cooking oil follows the same split as whatever it's for. Vegetable is split evenly. Add-ons on the "My Macros" tab are for the larger portion only and aren't included here.`;
+  panelEl.innerHTML = `<div class="section-title">${whoTitle}</div>
+    <div class="section-sub" style="background:var(--bg);border-radius:8px;padding:8px 10px;margin-bottom:14px;">
+      ${targetNote}
+    </div>${html}`;
+  panelEl.querySelectorAll('.day-card').forEach(card=>{
+    card.onclick = ()=> card.classList.toggle('open');
+  });
+}
+
 function renderPlan(){
   let html = '';
   plan.forEach((w, idx)=>{
     html += `<div class="week-block"><div class="week-label">${w.label}${idx===curWeek ? ' · current':''}</div>`;
     w.days.forEach((d,i)=>{
       const r = recipes[d.r];
+      const addons = RECIPE_ADDONS[d.r];
+      const addonLine = (addons && addons.length)
+        ? `<div style="margin-top:8px;font-size:12px;color:var(--tint);">+ Add-on for larger portion: ${addons.map(a=>`${a.qty} ${a.label.toLowerCase()}`).join(' + ')}</div>`
+        : '';
       html += `<div class="day-card" data-key="${idx}-${i}">
         <div class="day-row">
           <span class="day-name">${d.day}${d.slot?' '+d.slot:''}</span>
@@ -528,6 +746,7 @@ function renderPlan(){
             ${r.costco.map(x=>`<span class="tag costco">${x}</span>`).join('')}
             ${r.fresh.map(x=>`<span class="tag fresh">${x}</span>`).join('')}
           </div>
+          ${addonLine}
         </div>
       </div>`;
     });
